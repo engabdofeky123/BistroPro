@@ -59,5 +59,24 @@ namespace Restaurant_Management.Controllers
                 }).ToListAsync();
             return View("Reservations", result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Tables()
+        {
+            var result = new TablesViewModel();
+            var restaurntTables = await _context.RestaurantTables.ToListAsync();    
+            result.TotalTables =  restaurntTables.Count();
+            result.AvailableTables = restaurntTables.Where(t => t.IsAvailable).Count();
+            result.OccupiedTables = result.TotalTables - result.AvailableTables;
+
+             result.Tables = restaurntTables.Select(t => new TableDataViewModel 
+             {
+                 IsAvailable = t.IsAvailable,
+                 Capacity = t.Capacity,
+                 TableNumber = t.TableNumber
+             }).ToList();
+            
+            return View("Tables", result);
+        }
     }
 }
