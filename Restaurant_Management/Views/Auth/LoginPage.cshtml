@@ -1,0 +1,250 @@
+﻿@using Restaurant_Management.ViewModels.AuthVM
+@{
+    Layout = null;
+}
+
+@model LoginViewModel
+
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Login | BistroPro</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#fcf8ff",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed-variant": "#7b2f00",
+                      "on-tertiary": "#ffffff",
+                      "background": "#fcf8ff",
+                      "surface-tint": "#4d44e3",
+                      "on-secondary": "#ffffff",
+                      "outline-variant": "#c7c4d8",
+                      "on-primary-fixed": "#0f0069",
+                      "tertiary-fixed-dim": "#ffb695",
+                      "tertiary-fixed": "#ffdbcc",
+                      "surface-container-low": "#f5f2ff",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "on-primary-fixed-variant": "#3323cc",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#7e3000",
+                      "surface-dim": "#dcd8e5",
+                      "outline": "#777587",
+                      "primary-fixed-dim": "#c3c0ff",
+                      "on-tertiary-container": "#ffd2be",
+                      "surface-container-high": "#eae6f4",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#54647a",
+                      "surface-container-highest": "#e4e1ee",
+                      "on-surface": "#1b1b24",
+                      "tertiary-container": "#a44100",
+                      "on-primary-container": "#dad7ff",
+                      "surface": "#fcf8ff",
+                      "on-background": "#1b1b24",
+                      "surface-container": "#f0ecf9",
+                      "on-surface-variant": "#464555",
+                      "secondary-container": "#d0e1fb",
+                      "error": "#ba1a1a",
+                      "secondary-fixed": "#d3e4fe",
+                      "primary-container": "#4f46e5",
+                      "secondary": "#505f76",
+                      "inverse-on-surface": "#f3effc",
+                      "on-tertiary-fixed": "#351000",
+                      "primary-fixed": "#e2dfff",
+                      "inverse-primary": "#c3c0ff",
+                      "surface-variant": "#e4e1ee"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "container-margin-desktop": "32px",
+                      "sidebar-width": "280px",
+                      "container-margin-mobile": "16px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcf8ff;
+        }
+        .mesh-gradient {
+            background-color: #fcf8ff;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(77, 68, 227, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(77, 68, 227, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(186, 26, 26, 0.02) 0px, transparent 50%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+        }
+    </style>
+</head>
+<body class="mesh-gradient min-h-screen flex items-center justify-center p-container-margin-mobile md:p-container-margin-desktop">
+    <!-- Login Container -->
+    <div class="w-full max-w-[440px] animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <!-- Brand Identity -->
+        <div class="flex flex-col items-center mb-10">
+            <div class="mb-4 bg-primary rounded-xl p-3 shadow-lg shadow-primary/20">
+                <span class="material-symbols-outlined text-white text-[32px]" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+            </div>
+            <h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">BistroPro</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-2">Professional Kitchen Management</p>
+        </div>
+        <!-- Login Card -->
+        <div class="glass-card border border-outline-variant rounded-xl p-8 md:p-10">
+            <div class="mb-8">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface">Welcome back</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">Please enter your credentials to continue</p>
+            </div>
+            <div asp-validation-summary="All" class="text-red-500"></div>
+            <form asp-controller="Auth" asp-action="Login"  class="space-y-6" id="loginForm" method="post" >
+                @Html.AntiForgeryToken()
+                <!-- Email Field -->
+                <div class="space-y-2">
+                    <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="email">Email Address</label>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-on-surface-variant group-focus-within:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">mail</span>
+                        </div>
+                        <input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg text-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none" id="email" name="EmailAddress" placeholder="manager@bistropro.com" required type="email" value="@Model?.EmailAddress" />
+                    </div>
+                </div>
+                <!-- Password Field -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="password">Password</label>
+                        <a class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors" href="#">Forgot password?</a>
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-on-surface-variant group-focus-within:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">lock</span>
+                        </div>
+                        <input class="w-full pl-10 pr-12 py-3 bg-white border border-outline-variant rounded-lg text-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none" id="password" name="Password"  required="" type="password" value="@Model?.Password" />
+                        <button class="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Remember Me -->
+                <div class="flex items-center space-x-3">
+                    <input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary transition-colors cursor-pointer" id="remember" value="true"
+                           @(Model?.RememberMe == true ? "checked" : "") type="checkbox" name="RememberMe" />
+                    <label class="font-body-md text-body-md text-on-surface-variant cursor-pointer select-none" for="remember">Remember this device</label>
+                </div>
+                <!-- Submit Button -->
+                <button class="w-full bg-primary hover:bg-primary-container text-white font-headline-md text-headline-md-mobile py-4 rounded-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group" id="submitBtn" type="submit" asp-action="Login" asp-controller="Auth">
+                    <span>Sign In</span>
+                    <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </button>
+            </form>
+            <!-- SSO Options -->
+            <div class="mt-8">
+                <div class="relative flex items-center justify-center mb-6">
+                    <div class="flex-grow border-t border-outline-variant"></div>
+                    <span class="px-4 font-label-md text-label-md text-on-surface-variant bg-white">OR CONTINUE WITH</span>
+                    <div class="flex-grow border-t border-outline-variant"></div>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <button class="flex items-center justify-center gap-3 py-3 px-4 border border-outline-variant rounded-lg font-body-md text-on-surface hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+                        <img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhwIUOcN3hvTJ4LkdY0OmyZZdTk_BF4wlG5NSnIsph3jXimg6gILaEuOHX4xTPmf9shv_L6ynGwYG1ysC62ciqzxdW-Vo7CCWcyfIuY1aQZR9J3ktniHYmH751PQjosNHVy9VXWGWN7SI35QSIEF-gWmZvQ9aD9G31JraUflNM0mwpwMdj7ixje-_sy2NDJmFqI0fG9DC3sUe7Z6yVQlM70OqaM07Cs2j21y-Kxl_JMYjoMad1r6pAUjKhcgWtIavoT6aPHUnS8gs" />
+                        <span>Sign in with Google</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <p class="text-center mt-8 font-body-md text-body-md text-on-surface-variant">
+            New to BistroPro?
+            <a class="text-primary font-bold hover:underline" href="#">Request access</a>
+        </p>
+    </div>
+    <!-- Background Decoration -->
+    <div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-20">
+        <div class="absolute top-[10%] left-[5%] w-64 h-64 bg-primary blur-[120px] rounded-full"></div>
+        <div class="absolute bottom-[10%] right-[5%] w-96 h-96 bg-tertiary blur-[120px] rounded-full"></div>
+    </div>
+    <script>
+        // Micro-interaction for submit button
+        const form = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', (e) => {
+        submitBtn.disabled = true;
+
+            submitBtn.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-white"
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24">
+                    <circle class="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            stroke-width="4"></circle>
+                    <path class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z">
+                    </path>
+                </svg>
+                <span>Authenticating...</span>
+            `;
+
+            
+        });
+
+        // Simple visibility toggle for password
+        const toggleBtn = document.querySelector('button[type="button"]');
+        const passwordInput = document.getElementById('password');
+
+        toggleBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            toggleBtn.querySelector('span').textContent = isPassword ? 'visibility_off' : 'visibility';
+        });
+    </script>
+</body>
+</html>

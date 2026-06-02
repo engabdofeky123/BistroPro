@@ -1,0 +1,305 @@
+﻿@using Restaurant_Management.ViewModels.Admins
+@{
+    Layout = null;
+    @model DashboardViewModel
+}
+
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dashboard | BistroPro</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#fcf8ff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fcf8ff",
+                        "surface-tint": "#4d44e3",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c7c4d8",
+                        "on-primary-fixed": "#0f0069",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-container-low": "#f5f2ff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#7e3000",
+                        "surface-dim": "#dcd8e5",
+                        "outline": "#777587",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-tertiary-container": "#ffd2be",
+                        "surface-container-high": "#eae6f4",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#54647a",
+                        "surface-container-highest": "#e4e1ee",
+                        "on-surface": "#1b1b24",
+                        "tertiary-container": "#a44100",
+                        "on-primary-container": "#dad7ff",
+                        "surface": "#fcf8ff",
+                        "on-background": "#1b1b24",
+                        "surface-container": "#f0ecf9",
+                        "on-surface-variant": "#464555",
+                        "secondary-container": "#d0e1fb",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d3e4fe",
+                        "primary-container": "#4f46e5",
+                        "secondary": "#505f76",
+                        "inverse-on-surface": "#f3effc",
+                        "on-tertiary-fixed": "#351000",
+                        "primary-fixed": "#e2dfff",
+                        "inverse-primary": "#c3c0ff",
+                        "surface-variant": "#e4e1ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "container-margin-desktop": "32px",
+                        "sidebar-width": "280px",
+                        "container-margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-nav-border {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+    <!-- SideNavBar Anchor -->
+    <aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-surface-container-low border-r border-outline-variant flex flex-col py-base gap-2 z-50">
+        <!-- Brand Header -->
+        <div class="px-6 py-8 flex flex-col gap-1">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+                </div>
+                <h1 class="font-display-lg text-display-lg font-black text-primary">BistroPro</h1>
+            </div>
+            <p class="font-label-md text-label-md text-on-surface-variant opacity-70 px-1">Downtown Branch</p>
+        </div>
+        <!-- Navigation Links -->
+        <nav class="flex-1 px-4 space-y-1">
+            <!-- Dashboard (Active) -->
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container text-on-secondary-container border-l-4 border-primary font-bold transition-all duration-200 scale-98 active:scale-95" href="#">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-label-md text-label-md">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 scale-98 active:scale-95" href="#">
+                <span class="material-symbols-outlined" data-icon="book_online">book_online</span>
+                <span class="font-label-md text-label-md">Reservations</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 scale-98 active:scale-95" href="#">
+                <span class="material-symbols-outlined" data-icon="table_restaurant">table_restaurant</span>
+                <span class="font-label-md text-label-md">Tables</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 scale-98 active:scale-95" href="#">
+                <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+                <span class="font-label-md text-label-md">Schedule</span>
+            </a>
+        </nav>
+        <!-- CTA -->
+        <div class="px-4 py-6">
+            <button class="w-full flex items-center justify-center gap-2 bg-primary py-3 rounded-xl text-white font-bold hover:shadow-lg transition-all active:scale-95">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                <span class="font-label-md text-label-md">New Reservation</span>
+            </button>
+        </div>
+    </aside>
+    <!-- TopNavBar Anchor -->
+    <header class="fixed top-0 right-0 left-0 ml-sidebar-width h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-container-margin-desktop z-40">
+        <div class="flex items-center gap-4 flex-1">
+            <div class="relative w-full max-w-md">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60">search</span>
+                <input class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary/20 text-body-md font-body-md" placeholder="Search reservations, tables..." type="text" />
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="h-8 w-px bg-outline-variant"></div>
+            <div class="flex items-center gap-3 cursor-pointer group">
+                <div class="text-right">
+                    <p class="font-label-md text-label-md text-on-surface font-bold">Alex Chen</p>
+                    <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Manager</p>
+                </div>
+                <img alt="Manager Profile" class="w-10 h-10 rounded-full border border-outline-variant group-hover:border-primary transition-colors" data-alt="A professional headshot of a restaurant manager in a minimalist office setting. The person has a friendly, authoritative expression, wearing a crisp dark navy blazer. The lighting is bright and even, reflecting a clean SaaS dashboard aesthetic with soft shadows and a professional, modern corporate feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWUg0yu6LO4hJMja5qJwUtpPIH7jBGkECIfqsHfFOcFrH5ElcYgYaHNkPl6TQy_OFlYQDetnzPZZ_kn6UspOlZ9HGDCufGCUqW08R0elm3GytvenlGu9fpFcNIlnwPV_bELI34BwvhePQiR87P1NGyS3bxSsGDu2MQorsnMAQvOx1QWG3rRohyd7IupwWLMc-e3VnSpDDnom0-NpI8ksY7j8LzHxlD9NfmJNrIvbG2gkMoyaIh87WyLYzQZ_UUKuKbQI9QzvVXxME" />
+            </div>
+        </div>
+    </header>
+    <!-- Main Content Canvas -->
+    <main class="ml-sidebar-width pt-16 min-h-screen">
+        <div class="max-w-[1440px] mx-auto p-container-margin-desktop space-y-gutter">
+            <!-- Page Header -->
+            <div class="flex justify-between items-end">
+                <div>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard Overview</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Monitor your restaurant's performance in real-time.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filter Views
+                    </button>
+                    <button class="px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">download</span>
+                        Export Report
+                    </button>
+                </div>
+            </div>
+            <!-- Bento Grid Stat Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                <!-- Today Reservations -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-secondary-container rounded-lg text-on-secondary-container">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">book_online</span>
+                        </div>
+                    </div>
+                    <p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wide">Today Reservations</p>
+                    <h3 class="text-[32px] font-bold text-on-surface mt-1">@Model.TodayReservations</h3>
+                </div>
+                <!-- Available Tables -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-primary-fixed rounded-lg text-on-primary-fixed">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">table_bar</span>
+                        </div>
+                        <span class="text-on-surface-variant font-label-md text-label-md opacity-60">Real-time</span>
+                    </div>
+                    <p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wide">Available Tables</p>
+                    <h3 class="text-[32px] font-bold text-on-surface mt-1">@Model.AvailableTables</h3>
+                </div>
+                <!-- Reserved Tables -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-tertiary-fixed rounded-lg text-on-tertiary-fixed">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_seat</span>
+                        </div>
+                        <span class="text-error font-label-md text-label-md bg-error-container/30 px-2 py-1 rounded-full">Busy</span>
+                    </div>
+                    <p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wide">Reserved Tables</p>
+                    <h3 class="text-[32px] font-bold text-on-surface mt-1">@Model.ReservedTables</h3>
+                </div>
+                <!-- Total Customers -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-secondary-fixed rounded-lg text-on-secondary-fixed">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+                        </div>
+                    </div>
+                    <p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wide">Total Customers</p>
+                    <h3 class="text-[32px] font-bold text-on-surface mt-1">@Model.TotalCustomers</h3>
+                </div>
+            </div>
+            <!-- Main Dashboard Content Area -->
+            <div class="grid grid-cols-1 gap-gutter">
+                <!-- Today's Reservations Table -->
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
+                    <div class="px-6 py-5 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+                        <h3 class="font-headline-md text-headline-md text-on-surface">Today's Reservations</h3>
+                        <a class="text-primary font-label-md text-label-md hover:underline" href="#">View All Schedule</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-surface-container text-on-surface-variant font-label-md text-label-md">
+                                <tr>
+                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider">Time</th>
+                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider">Table</th>
+                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider">Guests</th>
+                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant font-body-md text-body-md">
+
+                                @foreach (var item in Model.ReservationsOfToday)
+                                {
+                                    <tr class="hover:bg-surface-container-low transition-colors cursor-pointer group">
+                                        <td class="px-6 py-4 font-bold text-on-surface">@item.CustomerName</td>
+                                        <td class="px-6 py-4">@item.ReservationTime.Hour:@item.ReservationTime.Minute</td>
+                                        <td class="px-6 py-4">@item.TableNumber</td>
+                                        <td class="px-6 py-4">@item.Guests</td>
+                                        <td class="px-6 py-4">
+                                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full font-label-md text-[10px] font-bold uppercase">@item.Status</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Kitchen Status / Quick Actions -->
+        </div>
+    </main>
+    <script>
+        // Simple interactivity for demonstration
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                row.classList.toggle('bg-primary-container/10');
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body>
+</html>
