@@ -78,5 +78,26 @@ namespace Restaurant_Management.Controllers
             
             return View("Tables", result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Schedule()
+        {
+            var result = new ScheduleViewModel();
+            result.TotalReservations = await _context.Reservations.Where(r => r.ReservationDate == DateTime.Today).CountAsync();
+            result.TotalGuests = await _context.Reservations.Where(r => r.ReservationDate == DateTime.Today).SumAsync(r => r.NumberOfGuests);
+            result.Occupancy = result.TotalReservations > 0 ? (float)result.TotalGuests / (result.TotalReservations * 4) * 100 : 0; // Assuming each reservation is for a table of 4
+            result.Reservations = await _context.Reservations.Include(r => r.Customer).Include(r => r.Table)
+                .Where(r => r.ReservationDate.Date == DateTime.Today)
+                .Select(res => new ReservationScheduleViewModel
+                {
+                    CustomerName = res.Customer.Name ?? "No Name",
+                    Guests = res.NumberOfGuests,
+                    ReservationDate = res.ReservationDate,
+                    Status = res.Status,
+                    TableNumber = res.Table.TableNumber
+                }).ToListAsync();
+
+            return View("Schedule", result);
+        }
     }
 }
