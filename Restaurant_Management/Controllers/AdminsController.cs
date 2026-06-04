@@ -64,18 +64,18 @@ namespace Restaurant_Management.Controllers
         public async Task<IActionResult> Tables()
         {
             var result = new TablesViewModel();
-            var restaurntTables = await _context.RestaurantTables.ToListAsync();    
-            result.TotalTables =  restaurntTables.Count();
+            var restaurntTables = await _context.RestaurantTables.ToListAsync();
+            result.TotalTables = restaurntTables.Count();
             result.AvailableTables = restaurntTables.Where(t => t.IsAvailable).Count();
             result.OccupiedTables = result.TotalTables - result.AvailableTables;
 
-             result.Tables = restaurntTables.Select(t => new TableDataViewModel 
-             {
-                 IsAvailable = t.IsAvailable,
-                 Capacity = t.Capacity,
-                 TableNumber = t.TableNumber
-             }).ToList();
-            
+            result.Tables = restaurntTables.Select(t => new TableDataViewModel
+            {
+                IsAvailable = t.IsAvailable,
+                Capacity = t.Capacity,
+                TableNumber = t.TableNumber
+            }).ToList();
+
             return View("Tables", result);
         }
 
@@ -98,6 +98,31 @@ namespace Restaurant_Management.Controllers
                 }).ToListAsync();
 
             return View("Schedule", result);
+        }
+
+        [HttpGet]
+        public IActionResult AddNewTable()
+        {
+            return View("AddNewTable");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewTable(AddNewTableViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newTable = new RestaurantTable
+                {
+                    TableNumber = model.TableNumber,
+                    Capacity = model.SeatingCapacity,
+                    IsAvailable = model.IsAvailable
+                };
+                _context.RestaurantTables.Add(newTable);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Table added successfully.";
+                RedirectToAction(nameof(Tables));
+            }
+            return View("AddNewTable", model);
         }
     }
 }
