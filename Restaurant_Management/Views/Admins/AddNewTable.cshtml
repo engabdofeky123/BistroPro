@@ -1,7 +1,7 @@
 ﻿@using Restaurant_Management.ViewModels.Admins
+@model AddNewTableViewModel
 @{
     Layout = null;
-    @model AddNewTableViewModel
 }
 
 <!DOCTYPE html>
@@ -141,13 +141,13 @@
     <!-- Main Content Canvas -->
     <main class="flex-1 overflow-y-auto px-container-margin-mobile py-8 max-w-md mx-auto w-full">
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
-            <form method="post" asp-action="AddNewTable" class="flex flex-col gap-8" id="addTableForm">
+            <form method="post" asp-action="SubmitAddNewTable" class="flex flex-col gap-8" id="addTableForm">
                 @Html.AntiForgeryToken()
                 <!-- Table Number Field -->
                 <div class="flex flex-col gap-2">
                     <label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="table_number">Table Number</label>
                     <div class="relative">
-                        <input asp-for="@Model.TableNumber" class="w-full bg-white border border-outline rounded-lg px-4 py-3 font-body-lg text-body-lg focus:outline-none focus:border-primary transition-all text-on-surface" id="table_number" placeholder="e.g. T-12" type="text" />
+                        <input asp-for="TableNumber" class="w-full bg-white border border-outline rounded-lg px-4 py-3 font-body-lg text-body-lg focus:outline-none focus:border-primary transition-all text-on-surface" id="table_number" placeholder="e.g. T-12" type="text" />
                         <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline-variant">tag</span>
                     </div>
                 </div>
@@ -156,30 +156,30 @@
                     <label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Seating Capacity</label>
                     <div class="grid grid-cols-4 gap-2">
                         <label class="relative cursor-pointer group">
-                            <input checked="" class="peer sr-only" asp-for="@Model.SeatingCapacity" type="radio" value="2" />
+                            <input checked="" class="peer sr-only" asp-for="SeatingCapacity" type="radio" value="2" />
                             <div class="flex flex-col items-center justify-center py-4 border border-outline rounded-lg peer-checked:bg-secondary-container peer-checked:border-primary peer-checked:text-on-secondary-container hover:bg-surface-container transition-all group-active:scale-95">
                                 <span class="font-headline-md text-headline-md">2</span>
                                 <span class="font-label-sm text-label-sm opacity-70">Seats</span>
                             </div>
                         </label>
                         <label class="relative cursor-pointer group">
-                            <input class="peer sr-only" asp-for="@Model.SeatingCapacity" type="radio" value="4" />
+                            <input class="peer sr-only" asp-for="SeatingCapacity" type="radio" value="4" />
                             <div class="flex flex-col items-center justify-center py-4 border border-outline rounded-lg peer-checked:bg-secondary-container peer-checked:border-primary peer-checked:text-on-secondary-container hover:bg-surface-container transition-all group-active:scale-95">
                                 <span class="font-headline-md text-headline-md">4</span>
                                 <span class="font-label-sm text-label-sm opacity-70">Seats</span>
                             </div>
                         </label>
                         <label class="relative cursor-pointer group">
-                            <input class="peer sr-only" asp-for="@Model.SeatingCapacity" type="radio" value="6" />
+                            <input class="peer sr-only" asp-for="SeatingCapacity" type="radio" value="6" />
                             <div class="flex flex-col items-center justify-center py-4 border border-outline rounded-lg peer-checked:bg-secondary-container peer-checked:border-primary peer-checked:text-on-secondary-container hover:bg-surface-container transition-all group-active:scale-95">
                                 <span class="font-headline-md text-headline-md">6</span>
                                 <span class="font-label-sm text-label-sm opacity-70">Seats</span>
                             </div>
                         </label>
                         <label class="relative cursor-pointer group">
-                            <input class="peer sr-only" asp-for="@Model.SeatingCapacity" type="radio" value="8" />
+                            <input class="peer sr-only" asp-for="SeatingCapacity" type="radio" value="8" />
                             <div class="flex flex-col items-center justify-center py-4 border border-outline rounded-lg peer-checked:bg-secondary-container peer-checked:border-primary peer-checked:text-on-secondary-container hover:bg-surface-container transition-all group-active:scale-95">
-                                <span class="font-headline-md text-headline-md">8+</span>
+                                <span class="font-headline-md text-headline-md">8</span>
                                 <span class="font-label-sm text-label-sm opacity-70">Seats</span>
                             </div>
                         </label>
@@ -192,40 +192,43 @@
                         <span class="font-label-sm text-label-sm text-on-surface-variant">Available for booking immediately</span>
                     </div>
                     <label class="relative inline-flex items-center cursor-pointer">
-                        <input asp-for = "@Model.IsAvailable" checked="" class="sr-only peer" type="checkbox" value="" />
+                        <input asp-for="IsAvailable"class="sr-only peer" type="checkbox" />
                         <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                 </div>
-
                 <div class="mt-8 mb-12">
                     <button class="w-full bg-primary text-on-primary py-4 rounded-xl font-headline-md text-headline-md shadow-lg active:scale-95 transition-all hover:bg-primary-container" form="addTableForm" type="submit">
                         Save Table
                     </button>
-                    <p class="text-center mt-4 font-label-md text-label-md text-on-surface-variant">
-                        You can edit floor layouts in <span class="text-primary font-bold">Settings</span>
-                    </p>
                 </div>
-
             </form>
         </div>
         </main>    
     <script>
         // Simple Interaction: Mock success state
                 // Submit Loading State
-        document.getElementById('addTableForm').addEventListener('submit', function () {
+                document.addEventListener("DOMContentLoaded", () => {
 
-            const submitBtn = document.querySelector('button[type="submit"]');
+            const form = document.getElementById('addTableForm');
 
-            submitBtn.disabled = true;
+            if (!form) return;
 
-            submitBtn.innerHTML = `
-                <div class="flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined animate-spin">
-                        sync
-                    </span>
-                    Saving...
-                </div>
-            `;
+            form.addEventListener('submit', function () {
+
+                const submitBtn = document.querySelector('button[type="submit"]');
+
+                submitBtn.disabled = true;
+
+                submitBtn.innerHTML = `
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined animate-spin">
+                            sync
+                        </span>
+                        Saving...
+                    </div>
+                `;
+            });
+
         });
 
         // Input Focus Effect

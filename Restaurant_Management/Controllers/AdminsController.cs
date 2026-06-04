@@ -107,7 +107,7 @@ namespace Restaurant_Management.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewTable(AddNewTableViewModel model)
+        public async Task<IActionResult> SubmitAddNewTable(AddNewTableViewModel model) 
         {
             if (ModelState.IsValid)
             {
@@ -120,9 +120,11 @@ namespace Restaurant_Management.Controllers
                 _context.RestaurantTables.Add(newTable);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Table added successfully.";
-                RedirectToAction(nameof(Tables));
+                return RedirectToAction(nameof(Tables));
             }
             return View("AddNewTable", model);
         }
+    
+    
     }
 }
