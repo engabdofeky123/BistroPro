@@ -1,173 +1,124 @@
-# BistroPro - Restaurant Management System
+# BistroPro
 
-## Overview
+A modern Restaurant Management System built using ASP.NET Core MVC and Entity Framework Core.
 
-BistroPro is a web-based Restaurant Management System designed to help restaurant managers efficiently handle reservations, table assignments, and daily restaurant operations.
-
-The system provides a modern and responsive dashboard that simplifies reservation management while maintaining a clean and user-friendly interface.
-
----
+The system helps restaurant administrators manage tables, reservations, meals, customer orders, and daily operations through a clean and user-friendly dashboard.
 
 ## Features
 
-### Reservation Management
+### Authentication & Authorization
 
-* View all reservations in a centralized dashboard.
-* Create new reservations.
-* Update existing reservations.
-* Cancel reservations.
-* Track reservation status (Confirmed, Pending, Cancelled).
+* Secure login and logout functionality
+* Role-based authorization
+* Protected admin pages
+
+### Dashboard
+
+* Restaurant overview
+* Total reservations statistics
+* Total guests statistics
+* Occupancy percentage tracking
 
 ### Table Management
 
-* Manage restaurant tables.
-* Assign tables to reservations.
-* Monitor table availability.
+* View all restaurant tables
+* Add new tables
+* Update table availability status
+* Manage seating capacity
 
-### Dashboard Statistics
+### Reservation Management
 
-* View today's reservation count.
-* View pending reservation requests.
-* Monitor reservation activity in real-time.
+* Create reservations
+* View reservation schedule
+* Reservation status tracking
+* Assign reservations to tables
 
-### Search & Filtering
+### Meal Management
 
-* Search reservations by customer information.
-* Filter reservations by status.
-* Filter reservations by reservation date.
+* Add new meals
+* Edit meal details
+* Delete meals
+* Manage meal availability
 
-### Quick Actions
+### Order Management
 
-* Auto-Assign Tables.
-* Send SMS Alerts to customers.
-
----
+* Create customer orders
+* Manage order items
+* Track order status
+* Calculate total order amount
 
 ## Technologies Used
-
-### Backend
 
 * ASP.NET Core MVC
 * Entity Framework Core
 * SQL Server
-* LINQ
-
-### Frontend
-
+* ASP.NET Identity
+* C#
 * Razor Views
-* HTML5
-* Tailwind CSS
-* JavaScript
-
-### Database
-
-* SQL Server
-
----
-
-## System Architecture
-
-The project follows a layered architecture:
-
-* Presentation Layer (MVC Views)
-* Business Logic Layer (Services)
-* Data Access Layer (Entity Framework Core)
-* SQL Server Database
-
-This structure improves maintainability, scalability, and code organization.
-
----
+* Bootstrap / Tailwind CSS
+* LINQ
 
 ## Database Entities
 
-### Customer
+* Customers
+* Meals
+* Orders
+* OrderItems
+* Reservations
+* RestaurantTables
+* ApplicationUsers
 
-* Id
-* Name
-* PhoneNumber
+## Project Structure
 
-### Table
-
-* Id
-* TableNumber
-* Capacity
-* Status
-
-### Reservation
-
-* Id
-* CustomerId
-* TableId
-* ReservationDate
-* NumberOfGuests
-* Status
-
----
-
-## Reservation Status
-
-The system supports the following reservation statuses:
-
-* Pending
-* Confirmed
-* Cancelled
-
----
-
-## Future Enhancements
-
-* Authentication & Authorization
-* Role Management
-* Pagination
-* AJAX Filtering
-* Real-Time Updates using SignalR
-* Reporting & Analytics
-* Email Notifications
-* Online Reservation Portal
-
----
+```text
+Controllers/
+Models/
+ViewModels/
+Views/
+Data/
+Repositories/
+Services/
+Identity/
+```
 
 ## Getting Started
 
-### Prerequisites
-
-* .NET 8 SDK
-* SQL Server
-* Visual Studio 2022
-
-### Installation
-
-1. Clone the repository.
+### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/BistroPro.git
+git clone https://github.com/your-username/Restaurant-Management-System.git
 ```
 
-2. Navigate to the project directory.
+### Update Connection String
 
-```bash
-cd BistroPro
-```
-
-3. Update the connection string in:
+Open:
 
 ```json
 appsettings.json
 ```
 
-4. Apply database migrations.
+Update the SQL Server connection string.
 
-```bash
-dotnet ef database update
+### Apply Migrations
+
+```powershell
+Update-Database
 ```
 
-5. Run the application.
+### Run the Project
 
-```bash
+```powershell
 dotnet run
 ```
 
----
+## Future Improvements
+
+* SMS Notifications
+* Automatic Table Assignment
+* Daily Reports Export
+* Reservation Analytics
+* Email Notifications
+* PDF Report Generation
 
 ## Author
 
