@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Application.Features.Auth.Login;
+using Application.Features.Auth.Logout;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant_Management.Identity;
 using Restaurant_Management.ViewModels.AuthVM;
@@ -7,13 +10,11 @@ namespace Restaurant_Management.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly UserManager<ApplicationUser> _UserManager;
-        private readonly SignInManager<ApplicationUser> _SignInManager;
+        private readonly IMediator _mediator;
 
-        public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AuthController(IMediator mediatR)
         {
-            _SignInManager = signInManager;
-            _UserManager = userManager;
+            _mediator = mediatR;
         }
 
         [HttpGet]
@@ -28,32 +29,22 @@ namespace Restaurant_Management.Controllers
             if (!ModelState.IsValid)
                 return View("LoginPage", loginVm);
 
-            var appUser = await _UserManager.FindByEmailAsync(loginVm.EmailAddress);
+            var cmd = new LoginCommand(loginVm.EmailAddress,loginVm.Password,loginVm.RememberMe);
+            var result = await _mediator.Send(cmd);
 
-            if (appUser != null)
-            {
-                bool isFound = await _UserManager.CheckPasswordAsync(appUser, loginVm.Password);
-                if (isFound)
-                {
-                    await _SignInManager.SignInAsync(appUser, loginVm.RememberMe);
-                    return RedirectToAction("Index", "Home");
-                }
-                ModelState.AddModelError(string.Empty, "Incorrect Email or password");
-                return View("LoginPage", loginVm);
-            }
-
+            if (result.IsAuthenticated)
+                return RedirectToAction("Index", "Admins");
             else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
-                return View("LoginPage", loginVm);
-            }
+                ModelState.AddModelError("", result.Message!);
+            return View("LoginPage", loginVm);
         }
 
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await _SignInManager.SignOutAsync();
-            return RedirectToAction("OpenLogin");
+            var cmd = new LogoutCommand();
+            await _mediator.Send(cmd);
+            return RedirectToAction("LoginPage");
         }
     }
 }

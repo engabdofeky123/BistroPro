@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Restaurant_Management.Identity;
 using Restaurant_Management.Models;
 
-namespace Restaurant_Management.Data
+namespace Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -21,11 +21,11 @@ namespace Restaurant_Management.Data
             base.OnModelCreating(builder);
 
             // Customer -> User
-            builder.Entity<Customer>()
-                .HasOne(c => c.User)
-                .WithOne()
-                .HasForeignKey<Customer>(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<Customer>()
+            //    .HasOne(c => c.User)
+            //    .WithOne()
+            //    .HasForeignKey<Customer>(c => c.UserId)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             // Customer -> Orders
             builder.Entity<Customer>()

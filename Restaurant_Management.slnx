@@ -2,5 +2,5 @@
   <Project Path="Application/Application.csproj" Id="2bbe1b5f-171c-4cf7-b1d5-db6fb0983a56" />
   <Project Path="Domain/Domain.csproj" Id="e9d0a8ed-dcca-4762-8404-c144019fbd7f" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="cd748bdd-9eae-4cad-99a0-1b3d1db25fca" />
-  <Project Path="Restaurant_Management/Restaurant_Management.csproj" />
+  <Project Path="Restaurant_Management/MVC.csproj" />
 </Solution>

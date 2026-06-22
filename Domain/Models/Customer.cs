@@ -1,5 +1,4 @@
-﻿using Restaurant_Management.Identity;
-
+﻿
 namespace Restaurant_Management.Models
 {
     public class Customer
@@ -11,7 +10,6 @@ namespace Restaurant_Management.Models
         public string? PhoneNumber { get; set; }
 
         // Navigation properties
-        public ApplicationUser User { get; set; }
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
