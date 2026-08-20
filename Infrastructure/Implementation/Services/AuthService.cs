@@ -1,4 +1,6 @@
 ﻿using Application.DTOs;
+
+﻿using Application.DTOs.Auth;
 using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Restaurant_Management.Identity;
@@ -54,9 +56,43 @@ namespace Infrastructure.Implementation.Services
             await _signInManager.SignOutAsync();
         }
 
-        public Task<AuthResultMessge> Register(string name, string email, string password)
+
+        public async Task<AuthResultMessge> Register(RegisterDto dto)
         {
-            throw new NotImplementedException();
+            var UserExists = await _userManager.FindByEmailAsync(dto.Email);
+            if (UserExists != null)
+                return new AuthResultMessge { IsAuthenticated = false, Message = "The Email is used " };
+
+            var newUser = new ApplicationUser
+            {
+                Email = dto.Email,
+                FullName = dto.FullName,
+                UserName = dto.Email.Trim()
+            };
+
+            var result = await _userManager.CreateAsync(newUser,dto.Password);
+
+            if(!result.Succeeded)
+            {
+                var errors = "";
+                foreach (var error in result.Errors)
+                {
+                    errors += error.Description +", ";
+                }
+                return new AuthResultMessge
+                {
+                    IsAuthenticated = false,
+                    Message = errors
+                };
+            }
+
+             await _signInManager.SignInAsync(newUser, true);
+            return new AuthResultMessge
+            {
+                IsAuthenticated = true,
+                Message = "Logged In"
+            };
+            
         }
     }
 }

@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Admins.Queries.Schedules
 {
-    public record GetScheduleeQuery() : IRequest<ScheduleDto>;
+    public record GetScheduleeQuery(DateTime date) : IRequest<ScheduleDto>;
 }

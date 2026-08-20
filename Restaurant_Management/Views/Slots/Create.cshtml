@@ -1,0 +1,557 @@
+﻿@using Application.DTOs.ReservationsSlots
+@model ReservationSlotDto
+
+@{
+    Layout = null;
+
+    bool isEdit = Model?.Id > 0;
+
+    string pageTitle = isEdit
+        ? "Edit Reservation Slot"
+        : "New Reservation Slot";
+
+    string headerTitle = isEdit
+        ? "Edit Slot Details"
+        : "Reservation Slot Details";
+
+    string description = isEdit
+        ? "Update the reservation time slot and its availability."
+        : "Configure a new reservation time slot for your restaurant.";
+
+    string actionName = isEdit
+        ? "Edit"
+        : "Create";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet" />
+
+    <script id="tailwind-config">
+
+            tailwind.config = {
+
+                darkMode: "class",
+
+                theme: {
+
+                    extend: {
+
+                        colors: {
+
+                            "background": "#fcf8ff",
+                            "error": "#ba1a1a",
+                            "secondary": "#505f76",
+                            "primary": "#3525cd",
+                            "surface": "#fcf8ff",
+                            "surface-container-low": "#f5f2ff",
+                            "surface-container": "#f0ecf9",
+                            "surface-container-high": "#eae6f4",
+                            "surface-container-highest": "#e4e1ee",
+                            "surface-container-lowest": "#ffffff",
+                            "on-surface": "#1b1b24",
+                            "on-surface-variant": "#464555",
+                            "outline": "#777587",
+                            "outline-variant": "#c7c4d8",
+                            "secondary-container": "#d0e1fb",
+                            "on-secondary-container": "#54647a",
+                            "error-container": "#ffdad6"
+
+                        },
+
+                        borderRadius: {
+
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+
+                        },
+
+                        spacing: {
+
+                            "gutter": "24px",
+                            "container-margin-mobile": "16px",
+                            "sidebar-width": "280px",
+                            "container-margin-desktop": "32px",
+                            "base": "8px"
+
+                        },
+
+                        fontFamily: {
+
+                            "label-md": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "body-md": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "label-sm": ["Inter"]
+
+                        },
+
+                        fontSize: {
+
+                            "label-md": [
+                                "12px",
+                                {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                                }
+                            ],
+
+                            "headline-md": [
+                                "20px",
+                                {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                                }
+                            ],
+
+                            "body-md": [
+                                "14px",
+                                {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                                }
+                            ],
+
+                            "body-lg": [
+                                "16px",
+                                {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                                }
+                            ],
+
+                            "label-sm": [
+                                "11px",
+                                {
+                                    "lineHeight": "14px",
+                                    "fontWeight": "500"
+                                }
+                            ]
+
+                        }
+
+                    }
+
+                }
+
+            };
+
+    </script>
+
+    <style>
+
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .form-input-focus:focus {
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+                border-color: #3525cd;
+            }
+
+    </style>
+
+</head>
+
+<body class="bg-background text-on-surface min-h-screen">
+
+    <!-- ================= TOP NAVIGATION ================= -->
+
+    <header class="sticky top-0 z-50 bg-surface h-16 flex items-center px-4 justify-between">
+
+        <div class="flex items-center gap-4">
+
+            <a href="/Slots"
+               class="p-2 hover:bg-surface-container-high rounded-full transition-colors active:scale-95">
+
+                <span class="material-symbols-outlined text-on-surface">
+                    arrow_back
+                </span>
+
+            </a>
+
+            <h1 class="font-headline-md text-headline-md font-bold text-on-surface">
+
+                @pageTitle
+
+            </h1>
+
+        </div>
+
+        <div class="flex items-center gap-2">
+
+            <span class="material-symbols-outlined text-on-surface-variant">
+                help
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="max-w-lg mx-auto p-4 pb-32">
+
+        <section class="space-y-gutter">
+
+
+            <!-- ================= HEADER CARD ================= -->
+
+            <div class="bg-white rounded-xl border border-outline-variant p-6 relative overflow-hidden">
+
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+
+                    <span class="material-symbols-outlined text-primary text-6xl">
+                        schedule
+                    </span>
+
+                </div>
+
+                <h2 class="font-headline-md text-headline-md text-on-surface mb-1">
+
+                    @headerTitle
+
+                </h2>
+
+                <p class="font-body-md text-body-md text-on-surface-variant">
+
+                    @description
+
+                </p>
+
+            </div>
+
+
+            <!-- ================= FORM ================= -->
+
+            <form asp-action="@actionName"
+                  method="post"
+                  class="space-y-6"
+                  id="slotForm">
+
+                @Html.AntiForgeryToken()
+
+
+                <!-- ID -->
+                @if (isEdit)
+                {
+                    <input asp-for="Id" type="hidden" />
+                }
+
+
+                <!-- ================= START TIME ================= -->
+
+                <div class="space-y-2">
+
+                    <label class="block font-label-md text-label-md text-on-surface-variant"
+                           asp-for="StartTime">
+
+                        START TIME
+
+                    </label>
+
+                    <div class="relative">
+
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline pointer-events-none">
+
+                            schedule
+
+                        </span>
+
+                        <input asp-for="StartTime"
+                               type="time"
+                               class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg font-body-lg text-body-lg form-input-focus outline-none transition-all" />
+
+                    </div>
+
+                    <span asp-validation-for="StartTime"
+                          class="text-sm text-red-600">
+                    </span>
+
+                </div>
+
+
+                <!-- ================= END TIME ================= -->
+
+                <div class="space-y-2">
+
+                    <label class="block font-label-md text-label-md text-on-surface-variant"
+                           asp-for="EndTime">
+
+                        END TIME
+
+                    </label>
+
+                    <div class="relative">
+
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline pointer-events-none">
+
+                            schedule
+
+                        </span>
+
+                        <input asp-for="EndTime"
+                               type="time"
+                               class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg font-body-lg text-body-lg form-input-focus outline-none transition-all" />
+
+                    </div>
+
+                    <span asp-validation-for="EndTime"
+                          class="text-sm text-red-600">
+                    </span>
+
+                </div>
+
+
+                <!-- ================= DURATION ================= -->
+
+                <div class="bg-white rounded-xl border border-outline-variant p-4">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <label class="block font-label-md text-label-md text-on-surface-variant">
+
+                                SLOT DURATION
+
+                            </label>
+
+                            <p class="font-body-md text-body-md text-outline"
+                               id="durationText">
+
+                                Select start and end time
+
+                            </p>
+
+                        </div>
+
+                        <div class="w-11 h-11 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+
+                            <span class="material-symbols-outlined">
+
+                                timer
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= STATUS ================= -->
+
+                <div class="bg-white rounded-xl border border-outline-variant p-4">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <label class="block font-label-md text-label-md text-on-surface-variant">
+
+                                SLOT STATUS
+
+                            </label>
+
+                            <p class="font-body-md text-body-md text-outline">
+
+                                Enable this slot for reservations
+
+                            </p>
+
+                        </div>
+
+
+                        <label class="relative inline-flex items-center cursor-pointer">
+
+                            <input asp-for="IsActive"
+                                   type="checkbox"
+                                   class="sr-only peer" />
+
+                            <div class="w-11 h-6 bg-surface-container-highest rounded-full peer
+                                peer-checked:bg-primary
+                                after:content-['']
+                                after:absolute
+                                after:top-[2px]
+                                after:left-[2px]
+                                after:bg-white
+                                after:border
+                                after:border-outline-variant
+                                after:rounded-full
+                                after:h-5
+                                after:w-5
+                                after:transition-all
+                                peer-checked:after:translate-x-full
+                                peer-checked:after:border-white">
+                            </div>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= BOTTOM ACTION BAR ================= -->
+
+    <footer class="fixed bottom-0 left-0 w-full bg-white border-t border-outline-variant p-4 px-gutter pb-8 z-50">
+
+        <div class="max-w-lg mx-auto">
+
+            <button class="w-full bg-primary py-4 rounded-xl flex items-center justify-center gap-2 group active:scale-98 transition-all shadow-lg shadow-primary/20"
+                    form="slotForm"
+                    type="submit">
+
+                <span class="text-white font-headline-md text-headline-md font-bold">
+
+                    @(isEdit ? "Update Reservation Slot" : "Create Reservation Slot")
+
+                </span>
+
+                <span class="material-symbols-outlined text-white group-hover:translate-x-1 transition-transform">
+
+                    @(isEdit ? "save" : "arrow_forward")
+
+                </span>
+
+            </button>
+
+            <p class="text-center mt-3 font-label-sm text-label-sm text-outline">
+
+                @(isEdit
+                    ? "Changes will be applied to this reservation slot."
+                    : "The new slot will become available for restaurant reservations.")
+
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+            const startTimeInput = document.getElementById("StartTime");
+            const endTimeInput = document.getElementById("EndTime");
+            const durationText = document.getElementById("durationText");
+
+
+            function updateDuration() {
+
+                if (!startTimeInput.value || !endTimeInput.value) {
+
+                    durationText.innerText = "Select start and end time";
+
+                    return;
+                }
+
+
+                const startParts = startTimeInput.value.split(":");
+                const endParts = endTimeInput.value.split(":");
+
+
+                const startMinutes =
+                    parseInt(startParts[0]) * 60 +
+                    parseInt(startParts[1]);
+
+
+                const endMinutes =
+                    parseInt(endParts[0]) * 60 +
+                    parseInt(endParts[1]);
+
+
+                const duration = endMinutes - startMinutes;
+
+
+                if (duration <= 0) {
+
+                    durationText.innerText =
+                        "End time must be after start time";
+
+                    durationText.classList.add("text-red-600");
+
+                    return;
+                }
+
+
+                durationText.classList.remove("text-red-600");
+
+
+                const hours = Math.floor(duration / 60);
+                const minutes = duration % 60;
+
+
+                if (hours > 0 && minutes > 0) {
+
+                    durationText.innerText =
+                        `${hours}h ${minutes}min`;
+
+                }
+                else if (hours > 0) {
+
+                    durationText.innerText =
+                        `${hours} hour${hours > 1 ? "s" : ""}`;
+
+                }
+                else {
+
+                    durationText.innerText =
+                        `${minutes} minutes`;
+
+                }
+
+            }
+
+
+            startTimeInput.addEventListener(
+                "change",
+                updateDuration
+            );
+
+
+            endTimeInput.addEventListener(
+                "change",
+                updateDuration
+            );
+
+
+            updateDuration();
+
+    </script>
+
+</body>
+
+</html>

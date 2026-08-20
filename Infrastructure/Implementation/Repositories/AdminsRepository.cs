@@ -43,39 +43,66 @@ namespace Infrastructure.Implementation.Repositories
         public async Task<ReservationDto> GetReservationsData()
         {
             var result = new ReservationDto();
-            result.PendingRequests = await _context.Reservations.Where(r => r.Status == ReservationStatus.Pending).CountAsync();
-            result.TodayReservations = await _context.Reservations.Where(r => r.ReservationDate.Date == DateTime.Today).CountAsync();
 
-            result.ReservationsOfToday = await _context.Reservations.Include(r => r.Customer).Include(r => r.Table)
-                .Where(r => r.ReservationDate.Date == DateTime.Today)
+            result.PendingRequests = await _context.Reservations
+                .CountAsync(r => r.Status == ReservationStatus.Pending);
+
+            result.TodayReservations = await _context.Reservations
+                .CountAsync(r => r.ReservationDate.Date == DateTime.Today);
+
+            result.ReservationsOfToday = await _context.Reservations
+                .Include(r => r.Customer)
+                .Include(r => r.Table)
+                .Include(r => r.ReservationSlot)
+                .OrderBy(r => r.ReservationSlot.StartTime)
                 .Select(res => new ReservationInfo
                 {
+                    ReservationId = res.Id,
                     CustomerName = res.Customer.Name ?? "No Name",
                     Guests = res.NumberOfGuests,
                     ReservationTime = res.ReservationDate,
+                    StartTime = res.ReservationSlot.StartTime,
+                    EndTime = res.ReservationSlot.EndTime,
                     Status = res.Status,
                     TableNumber = res.Table.TableNumber,
                     PhoneNNumber = res.Customer.PhoneNumber
-                }).ToListAsync();
+                })
+                .ToListAsync();
+
             return result;
         }
 
-        public async Task<ScheduleDto> GetScheduleData()
+        public async Task<ScheduleDto> GetScheduleData(DateTime date)
         {
+            var selectedDate = date.Date;
+
             var result = new ScheduleDto();
-            result.TotalReservations = await _context.Reservations.Where(r => r.ReservationDate == DateTime.Today).CountAsync();
-            result.TotalGuests = await _context.Reservations.Where(r => r.ReservationDate == DateTime.Today).SumAsync(r => r.NumberOfGuests);
-            result.Occupancy = result.TotalReservations > 0 ? (float)result.TotalGuests / (result.TotalReservations * 4) * 100 : 0; // Assuming each reservation is for a table of 4
-            result.Reservations = await _context.Reservations.Include(r => r.Customer).Include(r => r.Table)
-                .Where(r => r.ReservationDate.Date == DateTime.Today)
-                .Select(res => new ReservationScheduleDto 
-                { 
+
+            result.TotalReservations = await _context.Reservations
+                .CountAsync(r => r.ReservationDate.Date == selectedDate);
+
+            result.TotalGuests = await _context.Reservations
+                .Where(r => r.ReservationDate.Date == selectedDate)
+                .SumAsync(r => r.NumberOfGuests);
+
+            result.Occupancy = result.TotalReservations > 0
+                ? (float)result.TotalGuests / (result.TotalReservations * 4) * 100
+                : 0;
+
+            result.Reservations = await _context.Reservations
+                .Include(r => r.Customer)
+                .Include(r => r.Table)
+                .Where(r => r.ReservationDate.Date == selectedDate)
+                .Select(res => new ReservationScheduleDto
+                {
                     CustomerName = res.Customer.Name ?? "No Name",
                     Guests = res.NumberOfGuests,
                     ReservationDate = res.ReservationDate,
                     Status = res.Status,
                     TableNumber = res.Table.TableNumber
-                }).ToListAsync();
+                })
+                .ToListAsync();
+
             return result;
         }
 
@@ -91,10 +118,12 @@ namespace Infrastructure.Implementation.Repositories
             {
                 IsAvailable = t.IsAvailable,
                 Capacity = t.Capacity,
-                TableNumber = t.TableNumber
+                TableNumber = t.TableNumber,
+                Id = t.Id
             }).ToList();
             return result;
         }
+     
         public async Task<AddNewTableMessage> AddNewTable(RestaurantTable newTable)
         {
             var isFound =  _context.RestaurantTables.Any(x=> x.TableNumber == newTable.TableNumber);
@@ -104,5 +133,116 @@ namespace Infrastructure.Implementation.Repositories
             await _context.SaveChangesAsync();
             return new AddNewTableMessage { Success = true, Message = "New Table added successfully!" };
         }
+
+        public async Task<AddNewReservationMessage> AddNewReservation(AddNewReservationDto newReservation)
+        {
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(x =>
+                    x.PhoneNumber == newReservation.CustomerPhone);
+
+            if (customer == null)
+            {
+                customer = new Customer
+                {
+                    Name = newReservation.CustomerName,
+                    PhoneNumber = newReservation.CustomerPhone
+                };
+
+                await _context.Customers.AddAsync(customer);
+                await _context.SaveChangesAsync();
+            }
+
+            var table = await _context.RestaurantTables
+                .FirstOrDefaultAsync(x =>
+                    x.TableNumber == newReservation.TableNumber);
+
+            if (table == null)
+                return new AddNewReservationMessage
+                {
+                    Success = false,
+                    Message = "Table not found"
+                };
+
+            var reservationExists = await _context.Reservations
+                .AnyAsync(x =>
+                    x.Customer.PhoneNumber == newReservation.CustomerPhone &&
+                    x.ReservationDate == newReservation.ReservationDate);
+
+            if (reservationExists)
+                return new AddNewReservationMessage
+                {
+                    Success = false,
+                    Message = "Same reservation already exists"
+                };
+
+            var tableReserved = await _context.Reservations
+               .AnyAsync(x =>
+                   x.TableId == table.Id &&
+                   x.ReservationDate == newReservation.ReservationDate);
+
+            if (tableReserved)
+                return new AddNewReservationMessage
+                {
+                    Success = false,
+                    Message = "Table is already reserved for the selected date and time"
+                };
+
+            var reservation = new Reservation
+            {
+                CustomerId = customer.Id,
+                TableId = table.Id,
+                ReservationDate = newReservation.ReservationDate,
+                NumberOfGuests = newReservation.NumberOfGuests,
+                Notes = newReservation.Notes!,
+                ReservationSlotId = newReservation.ReservationSlotId
+            };
+
+            await _context.Reservations.AddAsync(reservation);
+            await _context.SaveChangesAsync();
+
+            return new AddNewReservationMessage
+            {
+                Success = true,
+                Message = "Reservation added successfully"
+            };
+        }
+
+        public async Task<UpdateOrDeleteTableMessage> DeleteTable(int tableId)
+        {
+            var table = await _context.RestaurantTables.FirstOrDefaultAsync(x => x.Id == tableId);
+            if (table == null)
+               return new UpdateOrDeleteTableMessage { IsSuccess = false, Message = "Table not found!" };
+
+            var hasReservations = await _context.Reservations.AnyAsync(r => r.TableId == tableId);
+            if (hasReservations)
+                return new UpdateOrDeleteTableMessage
+                {
+                    IsSuccess = false,
+                    Message = "Cannot delete this table because it has reservations."
+                };
+
+            _context.RestaurantTables.Remove(table);
+            await _context.SaveChangesAsync();
+            return new UpdateOrDeleteTableMessage
+            {
+                IsSuccess = true,
+                Message = "Table Deleted Successfully"
+            };
+        }
+
+        public async Task<UpdateOrDeleteTableMessage> UpdateTable(UpdateTableDto updatedTable)
+        {
+            var table = await GetTableById(updatedTable.Id);
+            if (table == null)
+                return new UpdateOrDeleteTableMessage { IsSuccess = false, Message = "Table not found!" };
+
+            table.TableNumber = updatedTable.TableNumber;
+            table.Capacity = updatedTable.SeatingCapacity;
+            table.IsAvailable = updatedTable.IsAvailable;
+            await _context.SaveChangesAsync();
+
+            return new UpdateOrDeleteTableMessage { IsSuccess = true, Message = "Table Updated Successfully" };
+        }
+        public async Task<RestaurantTable> GetTableById(int tableId) => await _context.RestaurantTables?.FirstOrDefaultAsync(x => x.Id == tableId);
     }
 }

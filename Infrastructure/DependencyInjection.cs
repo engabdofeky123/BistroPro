@@ -27,9 +27,18 @@ namespace Infrastructure
                 .AddDefaultTokenProviders();
 
 
-
             services.AddScoped<IAuth, AuthService>();
             services.AddScoped<IAdminsRepository, AdminsRepository>();
+            services.AddScoped<IAuth, AuthService>();
+            services.AddScoped<IAdminsRepository, AdminsRepository>();
+            services.AddScoped<IGetAvailableTablesForReservationService, GetAvailableTablesForReservationService>();
+            services.AddScoped<IPrintDailyBreifService, PrintDailyBreifService>();
+            services.AddScoped<IFilterReservationsService, FilterReservationsService>();
+            services.AddScoped<IReservationsRepository, ReservationsRepository>();
+            services.AddScoped<IGetReservationSlotsService, GetReservationSlotsService>();
+            services.AddScoped<IChangeReservationStatusService, ChangeReservationStatusService>();
+            services.AddScoped<ITimeSlotsRepository, TimeSlotsRepository>();
+
             return services;
         }
     }

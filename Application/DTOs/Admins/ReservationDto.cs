@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.DTOs.Admins
-{
-    public class ReservationDto
+{ 
+    public class ReservationDto 
     {
         public int TodayReservations { get; set; }
         public int PendingRequests { get; set; }

@@ -13,7 +13,7 @@ namespace Application.Features.Admins.Queries.Schedules
         }
         public async Task<ScheduleDto> Handle(GetScheduleeQuery request, CancellationToken cancellationToken)
         {
-            return await _adminRepository.GetScheduleData();
+            return await _adminRepository.GetScheduleData(request.date);
         }
     }
 }

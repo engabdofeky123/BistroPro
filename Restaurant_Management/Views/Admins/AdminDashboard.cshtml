@@ -189,16 +189,6 @@
                     <h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard Overview</h2>
                     <p class="font-body-md text-body-md text-on-surface-variant">Monitor your restaurant's performance in real-time.</p>
                 </div>
-                <div class="flex gap-3">
-                    <button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">filter_list</span>
-                        Filter Views
-                    </button>
-                    <button class="px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">download</span>
-                        Export Report
-                    </button>
-                </div>
             </div>
             <!-- Bento Grid Stat Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
@@ -251,7 +241,7 @@
                 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
                     <div class="px-6 py-5 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
                         <h3 class="font-headline-md text-headline-md text-on-surface">Today's Reservations</h3>
-                        <a class="text-primary font-label-md text-label-md hover:underline" href="#">View All Schedule</a>
+                        <a class="text-primary font-label-md text-label-md hover:underline" asp-action="Schedule" asp-controller="Admins">View All Schedule</a>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">

@@ -1,8 +1,11 @@
-﻿using Application.Features.Auth.Login;
+﻿using Application.DTOs.Auth;
+using Application.Features.Auth.Login;
 using Application.Features.Auth.Logout;
+using Application.Features.Auth.Register;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MVC.ViewModels.AuthVM;
 using Restaurant_Management.Identity;
 using Restaurant_Management.ViewModels.AuthVM;
 
@@ -45,6 +48,39 @@ namespace Restaurant_Management.Controllers
             var cmd = new LogoutCommand();
             await _mediator.Send(cmd);
             return RedirectToAction("LoginPage");
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View("Register");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View("Register", model);
+
+            var dto = new RegisterDto
+            {
+                FullName = model.FullName,
+                Email = model.Email,
+                Password = model.Password
+            };
+
+            var command = new RegisterCommand(dto);
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsAuthenticated)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View("Register", model);
+            }
+
+            return RedirectToAction("Index", "Admins");
         }
     }
 }
